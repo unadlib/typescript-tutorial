@@ -1,8 +1,8 @@
 # typescript-tutorial
 
-## 
+## 1. Basics
 
-### `unkown` / `any` /`never` / `void` / `undefined` / `null`
+### 1.1 `unkown` / `any` /`never` / `void` / `undefined` / `null`
 
 `unkown` which is the type-safe counterpart of `any` (TypeScript 3.0).
 
@@ -52,7 +52,7 @@ function infiniteLoop(): never {
 
 `void` contains `undefined` and `null` without `--strictNullChecks` flag, when using the `--strictNullChecks` flag, `void` just contains `undefined`.
 
-### Object / object / { [K: string]: any } / { [K in string]: any }
+### 1.2 Object / object / { [K: string]: any } / { [K in string]: any }
 
 `Object` is a type other than `null` and `undefined`.
 
@@ -116,7 +116,7 @@ function infiniteLoop(): never {
 }
 ```
 
-### $Type / $type (string, number, boolean)
+### 1.3 $Type / $type (string, number, boolean)
 
 `$Type` contains `$type` and `[object $type]`, and `$type` only means itself.
 
@@ -136,9 +136,9 @@ For example, `String` and `string`:
 }
 ```
 
-### `extends  ?` / `infer`
+### 1.4 `extends  ?` / `infer`
 
-### `keyof` / `typeof`
+### 1.5 `keyof` / `typeof`
 
-### `abstract` / `interface` / `class`
+### 1.6 `abstract` / `interface` / `class`
 
