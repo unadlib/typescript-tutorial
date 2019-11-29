@@ -1,0 +1,25 @@
+{
+  "name": "typescript-tutorial",
+  "version": "1.0.0",
+  "description": "A Typescript Tutorial",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unadlib/typescript-tutorial.git"
+  },
+  "author": "unadlib",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unadlib/typescript-tutorial/issues"
+  },
+  "homepage": "https://github.com/unadlib/typescript-tutorial#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.2"
+  }
+}
