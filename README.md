@@ -1,4 +1,4 @@
-# typescript-tutorial
+# Typescript Tutorial
 
 ## 1. Basics
 
@@ -59,6 +59,9 @@ function infiniteLoop(): never {
 `object` is a type that represents the non-primitive type.
 
 `{ [K: string]: any }` & `{ [K in string]: any }` can be type alias, they're equivalent to `object`.
+
+`{ [K in string]: any }` can't be defined as an interface, `{ [K: string]: any }` can also be defined as an interface.
+
 * non-strict mode.
 
 ```ts
