@@ -141,9 +141,9 @@ For example, `String` and `string`:
 
 ### 1.4 `extends ? :` / `infer` / `extends`
 
-`extends ? :` 常用用于泛形推断中，配合`infer`。
+`extends ? :` is commonly used in the generics type inferences, and is often used in conjunction with `infer`.
 
-`extends`单独使用，常用于泛形的约束。
+If just use `extends`, it is often used for type constraints.
 
 ```ts
 type Foo<T> = T extends string ? never : number;
