@@ -139,9 +139,110 @@ For example, `String` and `string`:
 }
 ```
 
-### 1.4 `extends  ?` / `infer`
+### 1.4 `extends ? :` / `infer` / `extends`
+
+`extends ? :` 常用用于泛形推断中，配合`infer`。
+
+`extends`单独使用，常用于泛形的约束。
+
+```ts
+type Foo<T> = T extends string ? never : number;
+type Foo0 = Foo<boolean>; // number
+
+type FooBar<T> = T extends { o: infer O } ? O : never;
+type fooBar0 = FooBar<{ o: { s: string } }>; // { s: string }
+```
 
 ### 1.5 `keyof` / `typeof`
 
+`typeof` is a type inference from a value in TypeScript.
+
+`keyof` is used for index type query.
+
+```ts
+type Foo = { n: number; s: string };
+type Keys = keyof Foo; // "n" | "s", union type
+
+const fn = (s: string) => (e: string): number => e.length + s.length;
+type Fn = typeof fn; // type Fn = (s: string) => (e: string) => number
+
+const obj = {l0: { l1: { l2: 'val' } } };
+type Obj = typeof obj;
+// type Obj = {
+//     l0: {
+//         l1: {
+//             l2: string;
+//         };
+//     };
+// }
+
+const arr0 = ['a', 1, null, undefined];
+type Arr0 = typeof arr0; // type Arr0 = (string | number)[]
+
+const arr1= ['a', 1, null, undefined, {}];
+type Arr1 = typeof arr1; // type Arr1 = {}[]
+
+const func = <T>(t: T): T => t;
+type Func = typeof func; // type A = <T>(t: T) => T
+
+class A<T>{
+  s: string;
+  t: T;
+  bar(s: string) {
+    return s.length;
+  }
+}
+
+const a = new A();
+type A1 = typeof a; // type A1 = A<unknown>
+```
+
 ### 1.6 `abstract` / `interface` / `class`
+Constraints without derivation
+
+```ts
+interface Foo {
+  bar: string;
+  foobar(s: string): number; 
+}
+
+class FooClazz implements Foo {
+  bar: string;
+  foobar(s: string): number {
+    throw new Error("Method not implemented.");
+  }
+}
+
+abstract class BarClass {
+  bar: string;
+  abstract foobar(s: string): number;
+}
+
+class BarClazz extends BarClass {
+  foobar(s: string): number {
+    throw new Error("Method not implemented.");
+  }
+}
+```
+
+### 1.6  Assertions(`!` / `as` / `const`)
+
+```ts
+```
+
+### 1.7 Generics Type Usage
+
+#### 1.7.1 
+
+```ts
+```
+
+#### 1.7.1 
+
+## 2. Advanced
+
+### 2.1 
+
+
+
 
