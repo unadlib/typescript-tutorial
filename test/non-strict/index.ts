@@ -93,3 +93,10 @@ function infiniteLoop(): never {
   const str00: string = 'a';
   const str01: string = new String('a'); // Error
 }
+
+namespace Assertions {
+  const a: { foo?: { bar?: any } } = {};
+  if (a.foo.bar.foobar) {
+    //
+  }
+}

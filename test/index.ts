@@ -1,3 +1,25 @@
+namespace NonGenericTypeExample {
+  function getProperty(obj: object, key: string) {
+      return obj[key];
+  }
+
+  let x = { a: 1, b: 2, c: 3, d: 4 };
+
+  const a = getProperty(x, "a"); // OK
+  const m = getProperty(x, "m"); // OK
+}
+
+namespace GenericTypeExample {
+  function getProperty<T, K extends keyof T>(obj: T, key: K) {
+      return obj[key];
+  }
+
+  let x = { a: 1, b: 2, c: 3, d: 4 };
+
+  const a = getProperty(x, "a"); // OK
+  const m = getProperty(x, "m"); // Error
+}
+
 namespace ExtendsExample {
   type Foo<T> = T extends string ? never : number;
   type Foo0 = Foo<boolean>; // number
@@ -67,4 +89,49 @@ namespace AbstractInerfaceExample {
       throw new Error("Method not implemented.");
     }
   }
+}
+
+namespace Assertions {
+  const a: { foo?: { bar?: { [K: string]: any } } } = {};
+  if (a.foo!.bar!.foobar) {}
+
+  interface B { str: string };
+  const b0 = { num: 1 } as B; // Error
+  const b1 = ({ num: 1 } as any) as B;
+  const b2 = <B>({ num: 1 } as any);
+  const b3: B = { num: 1 } as any;
+
+  let x = "hello" as const;
+  x = "world"; // Error
+  x = "hello"; // OK
+
+  const c0 = {
+    e: 0,
+    f: 1
+  } as const;
+  c0.e = 1; // Error
+  const c = <const>['a', 'b'];
+  c[0] = 'f'; // Error
+}
+
+namespace TwoWayGenericTypesExample {
+  type Foo<T> = T;
+  interface Bar<T> {
+    t: T;
+  }
+
+  const fn = <T>(t: T): T => t; 
+  class A<T> {
+    t: T;
+  };
+  new A<number>();
+
+  type C = {num: number};
+  class B<T extends C> extends A<T> {}
+  new B(); // OK
+  new B<{num: number; str: string}>(); // OK
+  new B<{str: string}>(); // Error
+  new B<any>(); // OK
+  new B<never>(); // OK
+  new B<{[K: string]: any}>(); // Error
 }

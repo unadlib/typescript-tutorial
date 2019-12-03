@@ -54,11 +54,11 @@ function infiniteLoop(): never {
 
 ### 1.2 Object / object / { [K: string]: any } / { [K in string]: any }
 
-`Object` is a type other than `null` and `undefined`.
+`Object` is a type other than `null` and `undefined`, **it has not derivations**.
 
 `object` is a type that represents the non-primitive type.
 
-`{ [K: string]: any }` & `{ [K in string]: any }` can be type alias, they're equivalent to `object`.
+`{ [K: string]: any }` & `{ [K in string]: any }` can be type alias, they're equivalent to `object`, **but `object` has not derivations**.
 
 `{ [K in string]: any }` can't be defined as an interface, `{ [K: string]: any }` can also be defined as an interface.
 
@@ -198,7 +198,8 @@ type A1 = typeof a; // type A1 = A<unknown>
 ```
 
 ### 1.6 `abstract` / `interface` / `class`
-Constraints without derivation
+
+`abstract` and `interface` have constraints without derivations for `class`.
 
 ```ts
 interface Foo {
@@ -225,16 +226,60 @@ class BarClazz extends BarClass {
 }
 ```
 
-### 1.6  Assertions(`!` / `as` / `const`)
+### 1.6  Assertions(`!` / `as` / `<type>` / `const`)
+
+* `!` is non-null assertion operator in TypeScript(`--strictNullChecks` mode).
 
 ```ts
+const a: { foo?: { bar?: { [K: string]: any } } } = {};
+if (a.foo!.bar!.foobar) {}
+```
+
+* Both `as` and `<type>` are assertion operators, they're equivalent.
+
+**Assertions can only be used for subset relationships.**
+
+```ts
+interface B { str: string };
+const b0 = { num: 1 } as B; // Error
+const b1 = ({ num: 1 } as any) as B;
+const b2 = <B>({ num: 1 } as any);
+const b3: B = { num: 1 } as any;
+```
+
+* `const` is a `readonly` or non-expandable assertion operator(TypeScript 3.4).
+
+```ts
+const c0 = {
+  e: 0,
+  f: 1
+} as const;
+c0.e = 1; // Error
+const c = <const>['a', 'b'];
+c[0] = 'f'; // Error
 ```
 
 ### 1.7 Generics Type Usage
 
-#### 1.7.1 
-
 ```ts
+type Foo<T> = T;
+interface Bar<T> {
+  t: T;
+}
+
+const fn = <T>(t: T): T => t; 
+class A<T> {
+  t: T;
+};
+new A<number>();
+
+class B<T extends {num: number}> extends A<T> {}
+new B(); // OK
+new B<{num: number; str: string}>(); // OK
+new B<{str: string}>(); // Error
+new B<any>(); // OK
+new B<never>(); // OK
+new B<{[K: string]: any}>(); // Error
 ```
 
 #### 1.7.1 
