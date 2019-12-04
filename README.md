@@ -282,11 +282,133 @@ new B<never>(); // OK
 new B<{[K: string]: any}>(); // Error
 ```
 
-#### 1.7.1 
+### 1.8 Rest elements in tuple types
+
+```ts
+function tuple<T extends any[]>(...args: T): T {
+    return args;
+}
+
+const numbers: number[] = getArrayOfNumbers();
+const t1 = tuple("foo", 1, true);  // [string, number, boolean]
+const t2 = tuple("bar", ...numbers);  // [string, ...number[]]
+```
 
 ## 2. Advanced
 
-### 2.1 
+### 2.1 Overloading & Merging
+
+### 2.2 UnionToTuple, TupleToUnion & UnionToIntersection
+
+### 2.3 Covariance & Contravariance
+
+### 2.4 Recursive Type(TypeScript 3.7)
+
+## 3. Not Supported Types
+
+* Dependent types
+
+[https://github.com/microsoft/TypeScript/issues/33014](https://github.com/microsoft/TypeScript/issues/33014)
+
+```ts
+interface F {
+  "t": number,
+  "f": boolean,
+}
+
+function f<T extends "t" | "f">(
+  t: T,
+  t2: T, // second key which we do not test
+  ft: F[T], // a value of type F[T]
+  f: F, // a record of type F
+) {
+  if (t === "t") {
+      const n: number = ft; // a) should be rejected, ft can be bool
+      f[t2] = 1; // b) should be rejected, f[t2] can be bool
+      return 1; // c) should be accepted
+  }
+  throw "";
+}
+```
+
+* Refinement Types
+
+```ts
+type Foo = {n : number | 0 < n };
+```
+
+* Negated Types
+
+[https://github.com/microsoft/TypeScript/pull/33050](https://github.com/microsoft/TypeScript/pull/33050)
+
+```ts
+const foo = <T extends not string>(t: T): T => t;
+```
+
+* Opaque Types
+
+```ts
+
+```
+
+* writeonly
+
+[https://github.com/microsoft/TypeScript/issues/21759](https://github.com/microsoft/TypeScript/issues/21759)
+
+```ts
+interface A {
+  readonly prop: boolean;
+}
+
+const a0: A = {
+  prop: false
+};
+
+const a1: A = {
+  get prop() {
+      return false;
+  }
+};
+
+const a2: A = {
+  set prop(value: boolean) {}
+};
+```
+
+```ts
+interface Bar {
+  readonly foo: string | null;
+  writeonly foo: string | object;
+}
+```
+
+* Width Subtyping
+
+```js
+// @flow
+function method(obj: {| foo: string |} | {| bar: number |}) {
+  if (obj.foo) {
+    // obj.foo: string
+  }
+}
+```
+
+We should use `as` assert in TypeScript for implementation.
+
+```ts
+function method(obj: { foo: string } | { bar: number }) {
+  const _obj = (obj as { foo: string });
+  if (_obj.foo) {
+    // obj.foo: string
+  }
+}
+```
+
+* Type Variance
+
+Invariance / Covariance / Contravariance / Bivariance
+
+
 
 
 

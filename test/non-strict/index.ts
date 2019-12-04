@@ -95,7 +95,7 @@ function infiniteLoop(): never {
 }
 
 namespace Assertions {
-  const a: { foo?: { bar?: any } } = {};
+  const a: { foo?: { bar?: { [P: string]: any } } } = {};
   if (a.foo.bar.foobar) {
     //
   }

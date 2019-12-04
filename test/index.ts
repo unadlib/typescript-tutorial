@@ -135,3 +135,39 @@ namespace TwoWayGenericTypesExample {
   new B<never>(); // OK
   new B<{[K: string]: any}>(); // Error
 }
+
+namespace RecursiveTypeExample {
+  type Node<T> = {
+    key: string;
+    value: T;
+    children?: Node<T>[]
+  } | Node<T>[];
+
+  const node: Node<string> = {
+    key: 'foo0',
+    value: 'fooValue0',
+    children: [
+      {
+        key: 'foo1',
+        value: 'fooValue1',
+        children: [
+          {
+            key: 'foo2',
+            value: 'fooValue2',
+          }
+        ]
+      }
+    ]
+  };
+}
+
+namespace RestElementsExample {
+  function tuple<T extends any[]>(...args: T): T {
+    return args;
+  }
+  
+  const numbers = [1, 2, 3];
+  const t1 = tuple("foo", 1, true);  // [string, number, boolean]
+  const t2 = tuple("bar", ...numbers);  // [string, ...number[]]
+}
+
