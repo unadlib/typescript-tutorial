@@ -376,7 +376,7 @@ type Result = UnionToIntersection<A | B>; // A & B
 ```
 
 ### 2.3 Covariance & Contravariance
-
+[https://medium.com/@michalskoczylas/covariance-contravariance-and-a-little-bit-of-typescript-2e61f41f6f68](https://medium.com/@michalskoczylas/covariance-contravariance-and-a-little-bit-of-typescript-2e61f41f6f68)
 ```ts
 
 ```
@@ -451,12 +451,6 @@ type Foo = {n : number | 0 < n };
 const foo = <T extends not string>(t: T): T => t;
 ```
 
-* Opaque Types
-
-```ts
-
-```
-
 * writeonly
 
 [https://github.com/microsoft/TypeScript/issues/21759](https://github.com/microsoft/TypeScript/issues/21759)
@@ -514,8 +508,8 @@ function method(obj: { foo: string } | { bar: number }) {
 
 Invariance / Covariance / Contravariance / Bivariance
 
+* Opaque Types
 
-
-
-
+```ts
+```
 
