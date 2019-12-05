@@ -1,6 +1,6 @@
 namespace NonGenericTypeExample {
   function getProperty(obj: object, key: string) {
-      return obj[key];
+    return obj[key];
   }
 
   let x = { a: 1, b: 2, c: 3, d: 4 };
@@ -11,7 +11,7 @@ namespace NonGenericTypeExample {
 
 namespace GenericTypeExample {
   function getProperty<T, K extends keyof T>(obj: T, key: K) {
-      return obj[key];
+    return obj[key];
   }
 
   let x = { a: 1, b: 2, c: 3, d: 4 };
@@ -34,8 +34,8 @@ namespace KeyofTypeofExample {
 
   const fn = (s: string) => (e: string): number => e.length + s.length;
   type Fn = typeof fn; // type Fn = (s: string) => (e: string) => number
-  
-  const obj = {l0: { l1: { l2: 'val' } } };
+
+  const obj = { l0: { l1: { l2: "val" } } };
   type Obj = typeof obj;
   // type Obj = {
   //     l0: {
@@ -45,16 +45,16 @@ namespace KeyofTypeofExample {
   //     };
   // }
 
-  const arr0 = ['a', 1, null, undefined];
+  const arr0 = ["a", 1, null, undefined];
   type Arr0 = typeof arr0; // type Arr0 = (string | number)[]
 
-  const arr1= ['a', 1, null, undefined, {}];
+  const arr1 = ["a", 1, null, undefined, {}];
   type Arr1 = typeof arr1; // type Arr1 = {}[]
 
   const func = <T>(t: T): T => t;
   type Func = typeof func; // type A = <T>(t: T) => T
 
-  class A<T>{
+  class A<T> {
     s: string;
     t: T;
     bar(s: string) {
@@ -69,7 +69,7 @@ namespace KeyofTypeofExample {
 namespace AbstractInerfaceExample {
   interface Foo {
     bar: string;
-    foobar: (s: string) => number; 
+    foobar: (s: string) => number;
   }
 
   class FooClazz implements Foo {
@@ -93,9 +93,12 @@ namespace AbstractInerfaceExample {
 
 namespace Assertions {
   const a: { foo?: { bar?: { [K: string]: any } } } = {};
-  if (a.foo!.bar!.foobar) {}
+  if (a.foo!.bar!.foobar) {
+  }
 
-  interface B { str: string };
+  interface B {
+    str: string;
+  }
   const b0 = { num: 1 } as B; // Error
   const b1 = ({ num: 1 } as any) as B;
   const b2 = <B>({ num: 1 } as any);
@@ -110,8 +113,8 @@ namespace Assertions {
     f: 1
   } as const;
   c0.e = 1; // Error
-  const c = <const>['a', 'b'];
-  c[0] = 'f'; // Error
+  const c = <const>["a", "b"];
+  c[0] = "f"; // Error
 }
 
 namespace TwoWayGenericTypesExample {
@@ -120,40 +123,42 @@ namespace TwoWayGenericTypesExample {
     t: T;
   }
 
-  const fn = <T>(t: T): T => t; 
+  const fn = <T>(t: T): T => t;
   class A<T> {
     t: T;
-  };
+  }
   new A<number>();
 
-  type C = {num: number};
+  type C = { num: number };
   class B<T extends C> extends A<T> {}
   new B(); // OK
-  new B<{num: number; str: string}>(); // OK
-  new B<{str: string}>(); // Error
+  new B<{ num: number; str: string }>(); // OK
+  new B<{ str: string }>(); // Error
   new B<any>(); // OK
   new B<never>(); // OK
-  new B<{[K: string]: any}>(); // Error
+  new B<{ [K: string]: any }>(); // Error
 }
 
 namespace RecursiveTypeExample {
-  type Node<T> = {
-    key: string;
-    value: T;
-    children?: Node<T>[]
-  } | Node<T>[];
+  type Node<T> =
+    | {
+        key: string;
+        value: T;
+        children?: Node<T>[];
+      }
+    | Node<T>[];
 
   const node: Node<string> = {
-    key: 'foo0',
-    value: 'fooValue0',
+    key: "foo0",
+    value: "fooValue0",
     children: [
       {
-        key: 'foo1',
-        value: 'fooValue1',
+        key: "foo1",
+        value: "fooValue1",
         children: [
           {
-            key: 'foo2',
-            value: 'fooValue2',
+            key: "foo2",
+            value: "fooValue2"
           }
         ]
       }
@@ -165,9 +170,58 @@ namespace RestElementsExample {
   function tuple<T extends any[]>(...args: T): T {
     return args;
   }
-  
+
   const numbers = [1, 2, 3];
-  const t1 = tuple("foo", 1, true);  // [string, number, boolean]
-  const t2 = tuple("bar", ...numbers);  // [string, ...number[]]
+  const t1 = tuple("foo", 1, true); // [string, number, boolean]
+  const t2 = tuple("bar", ...numbers); // [string, ...number[]]
 }
 
+namespace TupletoUnionExample {
+  type TupletoUnion0<T> = T extends (infer E)[] ? E : T;
+  type TupletoUnion1<T> = T extends { [index: number]: infer E } ? E : never;
+  type A0 = TupletoUnion0<["a" | "b" | number]>;
+  type A1 = TupletoUnion1<["a" | "b" | number]>;
+}
+
+namespace UnionToTupleExample {
+  type UnionToIoF<U> = (U extends any
+  ? (k: (x: U) => void) => void
+  : never) extends (k: infer I) => void
+    ? I
+    : never;
+  type UnionPop<U> = UnionToIoF<U> extends { (a: infer A): void } ? A : never;
+  type Prepend<U, T extends any[]> = ((a: U, ...r: T) => void) extends (
+    ...r: infer R
+  ) => void
+    ? R
+    : never;
+  type UnionToTupleRecursively<Union, Result extends any[]> = {
+    1: Result;
+    0: UnionToTupleRecursively_<Union, UnionPop<Union>, Result>;
+  }[[Union] extends [never] ? 1 : 0];
+
+  type UnionToTupleRecursively_<
+    Union,
+    Element,
+    Result extends any[]
+  > = UnionToTupleRecursively<
+    Exclude<Union, Element>,
+    Prepend<Element, Result>
+  >;
+
+  type UnionToTuple<U> = UnionToTupleRecursively<U, []>;
+
+  type A = UnionToTuple<"a" | "b" | number>;
+}
+
+namespace UnionToIntersectionExample {
+  type A = { name: number };
+  type B = { age: number };
+
+  type UnionToIntersection<U> = (U extends any
+  ? (k: U) => void
+  : never) extends (k: infer I) => void
+    ? I
+    : never;
+  type Result = UnionToIntersection<A | B>; // A & B
+}

@@ -300,6 +300,62 @@ const t2 = tuple("bar", ...numbers);  // [string, ...number[]]
 
 ### 2.2 UnionToTuple, TupleToUnion & UnionToIntersection
 
+* TupletoUnion
+
+```ts
+type TupletoUnion0<T> = T extends (infer E)[] ? E : T;
+type TupletoUnion1<T> = T extends { [index: number]: infer E } ? E : never;
+type A0 = TupletoUnion0<["a" | "b" | number]>;
+type A1 = TupletoUnion1<["a" | "b" | number]>;
+```
+
+* UnionToTuple
+
+```ts
+type UnionToIoF<U> = (U extends any
+? (k: (x: U) => void) => void
+: never) extends (k: infer I) => void
+  ? I
+  : never;
+type UnionPop<U> = UnionToIoF<U> extends { (a: infer A): void } ? A : never;
+type Prepend<U, T extends any[]> = ((a: U, ...r: T) => void) extends (
+  ...r: infer R
+) => void
+  ? R
+  : never;
+type UnionToTupleRecursively<Union, Result extends any[]> = {
+  1: Result;
+  0: UnionToTupleRecursively_<Union, UnionPop<Union>, Result>;
+}[[Union] extends [never] ? 1 : 0];
+
+type UnionToTupleRecursively_<
+  Union,
+  Element,
+  Result extends any[]
+> = UnionToTupleRecursively<
+  Exclude<Union, Element>,
+  Prepend<Element, Result>
+>;
+
+type UnionToTuple<U> = UnionToTupleRecursively<U, []>;
+
+type A = UnionToTuple<"a" | "b" | number>;
+```
+
+* UnionToIntersection
+
+```ts
+type A = { name: number };
+type B = { age: number };
+
+type UnionToIntersection<U> = (U extends any
+? (k: U) => void
+: never) extends (k: infer I) => void
+  ? I
+  : never;
+type Result = UnionToIntersection<A | B>; // A & B
+```
+
 ### 2.3 Covariance & Contravariance
 
 ### 2.4 Recursive Type(TypeScript 3.7)
