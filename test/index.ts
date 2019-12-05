@@ -179,10 +179,10 @@ namespace RestElementsExample {
 namespace TupletoUnionExample {
   type TupletoUnion0<T> = T extends (infer E)[] ? E : T;
   type TupletoUnion1<T> = T extends { [index: number]: infer E } ? E : never;
-  type A0 = TupletoUnion0<["a",  "b", number]>; // number | "a" | "b"
-  type A1 = TupletoUnion1<["a", "b",  number]>; // number | "a" | "b"
+  type A0 = TupletoUnion0<["a", "b", number]>; // number | "a" | "b"
+  type A1 = TupletoUnion1<["a", "b", number]>; // number | "a" | "b"
   const a = ["a", "b"] as const;
-  type A2 = (typeof a)[number]; // "a" | "b"
+  type A2 = typeof a[number]; // "a" | "b"
 }
 
 namespace UnionToTupleExample {
@@ -228,20 +228,31 @@ namespace UnionToIntersectionExample {
   type Result = UnionToIntersection<A | B>; // A & B
 }
 
-
 namespace DeepPartialExample {
   type DeepPartial<T> = {
     [P in keyof T]?: T[P] extends (infer U)[]
       ? DeepPartial<U>[]
       : T[P] extends object
       ? DeepPartial<T[P]>
-      : T[P]
+      : T[P];
   };
   type A = DeepPartial<{
     a: {
       b: {
         e: string;
-      }[]
+      }[];
     };
-  }>
+  }>;
+}
+
+namespace IsOperatorExample {
+  function isString(test: any): test is string {
+    return typeof test === "string";
+  }
+
+  function example(foo: any) {
+    if (isString(foo)) {
+      // foo: string
+    }
+  }
 }

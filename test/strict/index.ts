@@ -101,16 +101,16 @@ namespace Assertions {
   }
 }
 
-function isString(test: any): test is string{
-  return typeof test === 'string';
-}
+// function isString(test: any): test is string{
+//   return typeof test === 'string';
+// }
 
-function example(foo: any){
-  if (isString(foo)) {
-      let _foo = foo as string;
-      console.log(_foo.length);  // string function
-      console.log(foo.length); // string function
-  }
-}
-example('hello world');
+// function example(foo: any){
+//   if (isString(foo)) {
+//       let _foo = foo as string;
+//       console.log(_foo.length);  // string function
+//       console.log(foo.length); // string function
+//   }
+// }
+// example('hello world');
 

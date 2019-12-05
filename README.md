@@ -295,6 +295,19 @@ const numbers: number[] = getArrayOfNumbers();
 const t1 = tuple("foo", 1, true);  // [string, number, boolean]
 const t2 = tuple("bar", ...numbers);  // [string, ...number[]]
 ```
+### 1.8 `is` Operator 
+
+```ts
+function isString(test: any): test is string {
+  return typeof test === "string";
+}
+
+function example(foo: any) {
+  if (isString(foo)) {
+    // foo: string
+  }
+}
+```
 
 ## 2. Advanced
 
