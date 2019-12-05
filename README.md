@@ -1,5 +1,7 @@
 # Typescript Tutorial
 
+[Generics in TypeScript](https://docs.google.com/presentation/d/1m5112bmfD7_-imhU9xbjgRDQ5k5H6NMpzLQkMaFNHo8/edit?usp=sharing)
+
 ## 1. Basics
 
 ### 1.1 `unkown` / `any` /`never` / `void` / `undefined` / `null`
@@ -298,9 +300,7 @@ const t2 = tuple("bar", ...numbers);  // [string, ...number[]]
 
 ### 2.1 Overloading & Merging
 
-### 2.2 UnionToTuple, TupleToUnion & UnionToIntersection
-
-### 2.3
+### 2.2 DeepPartial or DeepReadonly
 
 ```ts
 type DeepPartial<T> = {
@@ -318,6 +318,8 @@ type A = DeepPartial<{
   };
 }>
 ```
+
+### 2.3 UnionToTuple, TupleToUnion & UnionToIntersection
 
 * TupletoUnion
 
@@ -506,9 +508,13 @@ function method(obj: { foo: string } | { bar: number }) {
 
 * Type Variance
 
+// TODO
+
 Invariance / Covariance / Contravariance / Bivariance
 
 * Opaque Types
+
+// TODO
 
 ```ts
 ```
