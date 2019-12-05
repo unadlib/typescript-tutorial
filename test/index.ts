@@ -179,8 +179,10 @@ namespace RestElementsExample {
 namespace TupletoUnionExample {
   type TupletoUnion0<T> = T extends (infer E)[] ? E : T;
   type TupletoUnion1<T> = T extends { [index: number]: infer E } ? E : never;
-  type A0 = TupletoUnion0<["a" | "b" | number]>;
-  type A1 = TupletoUnion1<["a" | "b" | number]>;
+  type A0 = TupletoUnion0<["a",  "b", number]>; // number | "a" | "b"
+  type A1 = TupletoUnion1<["a", "b",  number]>; // number | "a" | "b"
+  const a = ["a", "b"] as const;
+  type A2 = (typeof a)[number]; // "a" | "b"
 }
 
 namespace UnionToTupleExample {
