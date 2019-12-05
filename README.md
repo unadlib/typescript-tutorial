@@ -300,6 +300,11 @@ const t2 = tuple("bar", ...numbers);  // [string, ...number[]]
 
 ### 2.1 Overloading & Merging
 
+// TODO
+
+[https://www.typescriptlang.org/docs/handbook/declaration-merging.html](https://www.typescriptlang.org/docs/handbook/declaration-merging.html
+)
+
 ### 2.2 DeepPartial or DeepReadonly
 
 ```ts
@@ -378,6 +383,9 @@ type Result = UnionToIntersection<A | B>; // A & B
 ```
 
 ### 2.3 Covariance & Contravariance
+
+// TODO
+
 [https://medium.com/@michalskoczylas/covariance-contravariance-and-a-little-bit-of-typescript-2e61f41f6f68](https://medium.com/@michalskoczylas/covariance-contravariance-and-a-little-bit-of-typescript-2e61f41f6f68)
 ```ts
 
