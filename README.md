@@ -300,6 +300,25 @@ const t2 = tuple("bar", ...numbers);  // [string, ...number[]]
 
 ### 2.2 UnionToTuple, TupleToUnion & UnionToIntersection
 
+### 2.3
+
+```ts
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? DeepPartial<U>[]
+    : T[P] extends object
+    ? DeepPartial<T[P]>
+    : T[P]
+};
+type A = DeepPartial<{
+  a: {
+    b: {
+      e: string;
+    }[]
+  };
+}>
+```
+
 * TupletoUnion
 
 ```ts
@@ -358,7 +377,38 @@ type Result = UnionToIntersection<A | B>; // A & B
 
 ### 2.3 Covariance & Contravariance
 
+```ts
+
+```
+
 ### 2.4 Recursive Type(TypeScript 3.7)
+
+```ts
+type Node<T> =
+  | {
+      key: string;
+      value: T;
+      children?: Node<T>[];
+    }
+  | Node<T>[];
+
+const node: Node<string> = {
+  key: "foo0",
+  value: "fooValue0",
+  children: [
+    {
+      key: "foo1",
+      value: "fooValue1",
+      children: [
+        {
+          key: "foo2",
+          value: "fooValue2"
+        }
+      ]
+    }
+  ]
+};
+```
 
 ## 3. Not Supported Types
 

@@ -225,3 +225,21 @@ namespace UnionToIntersectionExample {
     : never;
   type Result = UnionToIntersection<A | B>; // A & B
 }
+
+
+namespace DeepPartialExample {
+  type DeepPartial<T> = {
+    [P in keyof T]?: T[P] extends (infer U)[]
+      ? DeepPartial<U>[]
+      : T[P] extends object
+      ? DeepPartial<T[P]>
+      : T[P]
+  };
+  type A = DeepPartial<{
+    a: {
+      b: {
+        e: string;
+      }[]
+    };
+  }>
+}
