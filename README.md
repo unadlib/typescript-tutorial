@@ -228,7 +228,7 @@ class BarClazz extends BarClass {
 }
 ```
 
-### 1.6  Assertions(`!` / `as` / `<type>` / `const`)
+### 1.7  Assertions(`!` / `as` / `<type>` / `const`)
 
 * `!` is non-null assertion operator in TypeScript(`--strictNullChecks` mode).
 
@@ -261,7 +261,7 @@ const c = <const>['a', 'b'];
 c[0] = 'f'; // Error
 ```
 
-### 1.7 Generics Type Usage
+### 1.8 Generics Type Usage
 
 ```ts
 type Foo<T> = T;
@@ -284,7 +284,7 @@ new B<never>(); // OK
 new B<{[K: string]: any}>(); // Error
 ```
 
-### 1.8 Rest elements in tuple types
+### 1.9 Rest elements in tuple types
 
 ```ts
 function tuple<T extends any[]>(...args: T): T {
@@ -295,7 +295,7 @@ const numbers: number[] = getArrayOfNumbers();
 const t1 = tuple("foo", 1, true);  // [string, number, boolean]
 const t2 = tuple("bar", ...numbers);  // [string, ...number[]]
 ```
-### 1.9 `is` Operator 
+### 1.10 `is` Operator 
 
 ```ts
 function isString(test: any): test is string {
